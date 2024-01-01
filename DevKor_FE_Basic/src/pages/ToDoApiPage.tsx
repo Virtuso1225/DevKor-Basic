@@ -1,4 +1,4 @@
-import { deleteTodo, getToDoList, patchTodoCheck, postTodo } from '@/api/todo'
+import { deleteTodo, getToDoList, patchTodoCheck, postTodo } from '@/api/toDo'
 import ToDoItem from '@/components/custom/ToDoItem'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
