@@ -19,13 +19,15 @@ function App() {
       setBorderColor('#FF5F57')
       return
     }
-    setTodoList(prev => [...prev, { id: prev.length, content: newTodo, isChecked: false }])
+    setTodoList(prev => [...prev, { id: prev.length, content: newTodo, isChecked: 0 }])
     setNewTodo('')
     setPlaceholderText('할 일을 작성해보세요!')
     setBorderColor('#DADADA')
   }
   const handleCheck = (id: number) => {
-    setTodoList(prev => prev.map(todo => (todo.id === id ? { ...todo, isChecked: !todo.isChecked } : todo)))
+    setTodoList(prev =>
+      prev.map(todo => (todo.id === id ? { ...todo, isChecked: todo.isChecked === 0 ? 1 : 0 } : todo))
+    )
   }
 
   const handleDelete = (id: number) => {
