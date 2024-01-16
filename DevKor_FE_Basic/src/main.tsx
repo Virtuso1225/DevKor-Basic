@@ -6,7 +6,7 @@ import ToDoApiPage from '@/pages/ToDoApiPage.tsx'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    {/* <App /> */}
-    <ToDoApiPage />
+    <App />
+    {/* <ToDoApiPage /> */}
   </React.StrictMode>
 )

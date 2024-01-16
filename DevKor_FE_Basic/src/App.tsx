@@ -11,7 +11,7 @@ function App() {
   const [newTodo, setNewTodo] = useState('')
 
   const progress =
-    todoList.length > 0 ? Math.floor((todoList.filter(todo => todo.isChecked).length / todoList.length) * 100) : 0
+    todoList.length > 0 ? Math.floor((todoList.filter(todo => todo.isChecked === 1).length / todoList.length) * 100) : 0
 
   const handleAddTodo = () => {
     if (newTodo === '') {
