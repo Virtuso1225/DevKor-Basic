@@ -5,8 +5,7 @@ import './index.css'
 import ToDoApiPage from '@/pages/ToDoApiPage.tsx'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-    <App />
-    {/* <ToDoApiPage /> */}
-  </React.StrictMode>
+  // <React.StrictMode>
+  <App />
+  // </React.StrictMode>
 )

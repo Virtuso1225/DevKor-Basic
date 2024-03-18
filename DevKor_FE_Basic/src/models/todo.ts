@@ -1,7 +1,7 @@
 export interface ToDo {
   id: number
   content: string
-  isChecked: 1 | 0
+  isChecked: true | false
 }
 export interface ToDoContainerProps extends ToDo {
   handlCheck: (id: number) => void

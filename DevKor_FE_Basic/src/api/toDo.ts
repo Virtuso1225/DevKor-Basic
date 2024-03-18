@@ -11,7 +11,7 @@ export const postTodo = async (content: string) => {
   return response.data
 }
 
-export const patchTodoCheck = async (id: number, isChecked: 0 | 1) => {
+export const patchTodoCheck = async (id: number, isChecked: boolean) => {
   const response = await axios.patch(`http://localhost:8080/todo/update/${id}`, { isChecked })
   return response.data
 }

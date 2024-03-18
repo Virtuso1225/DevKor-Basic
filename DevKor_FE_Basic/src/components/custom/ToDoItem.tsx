@@ -1,16 +1,13 @@
 import { Checkbox } from '@/components/ui/checkbox'
 import type { ToDoContainerProps } from '@/models/todo'
 import { Cross1Icon } from '@radix-ui/react-icons'
+import { memo } from 'react'
 
-const ToDoItem = ({ id, isChecked, content, handlCheck, handleDelete }: ToDoContainerProps) => {
+const ToDoItem = memo(({ id, isChecked, content, handlCheck, handleDelete }: ToDoContainerProps) => {
   return (
     <div className="flex flex-row w-[393px] justify-between items-center rounded-[10px] shadow border py-[15px] px-[32px]">
       <div className="flex flex-row justify-start items-center gap-[20px] ">
-        <Checkbox
-          checked={isChecked === 0 ? false : true}
-          className="border-[#DADADA] size-[20px]"
-          onClick={() => handlCheck(id)}
-        />
+        <Checkbox checked={isChecked} className="border-[#DADADA] size-[20px]" onClick={() => handlCheck(id)} />
         <p className="text-[15px] font-medium text-[#1E1E1E]">{content}</p>
       </div>
       <div
@@ -21,6 +18,6 @@ const ToDoItem = ({ id, isChecked, content, handlCheck, handleDelete }: ToDoCont
       </div>
     </div>
   )
-}
+})
 
 export default ToDoItem

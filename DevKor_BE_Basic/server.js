@@ -13,9 +13,10 @@ server.use(express.urlencoded({ extended: false}))
 server.get('/todo/lists', async (_, res) => {
     try{
         const connection = await pool.getConnection(async conn => conn);
-        const sqlQuery = 'SELECT * FROM todoList';
+        const sqlQuery = `SELECT id, content, IF(isChecked, 'true', 'false') as isChecked FROM todoList`;
         const [rows] = await pool.query(sqlQuery);
-        res.status(200).json(rows)
+        const data = rows.map(row => ({...row, isChecked: row.isChecked === 'true' ? true :false}))
+        res.status(200).json(data)
         connection.release();
     }
     catch(error){
@@ -74,7 +75,9 @@ server.get('/todo/secure/lists', auth, async(_, res)=>{
         const connection = await pool.getConnection(async conn => conn);
         const sqlQuery = `SELECT id, content, IF(isChecked, 'true', 'false') as isChecked FROM todoList`;
         const [rows] = await pool.query(sqlQuery);
-        res.status(200).json({code: 200, message: 'TODO가 성공적으로 조회되었습니다!', data: rows, statusCode: 200})
+        const data = rows.map(row => ({...row, isChecked: row.isChecked === 'true' ? true :false}))
+        console.log(data)
+        res.status(200).json({code: 200, message: 'TODO가 성공적으로 조회되었습니다!', data, statusCode: 200})
         connection.release();
     }
     catch(error){

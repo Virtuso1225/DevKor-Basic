@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Progress } from '@/components/ui/progress'
 import type { ToDo } from '@/models/todo'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 
 const ToDoApiPage = () => {
   const [todoList, setTodoList] = useState<ToDo[]>([])
@@ -14,34 +14,43 @@ const ToDoApiPage = () => {
   const [borderColor, setBorderColor] = useState('#DADADA')
   const [newTodo, setNewTodo] = useState('')
 
-  const handleAddTodo = () => {
+  const handleAddTodo = useCallback(() => {
     if (newTodo === '') {
       setPlaceholderText('일을 작성해야합니다!!!')
       setBorderColor('#FF5F57')
       return
     }
-    postTodo(newTodo).then(() => setUpdated(!updated))
+    postTodo(newTodo).then(() => setUpdated(prev => !prev))
     setNewTodo('')
     setPlaceholderText('할 일을 작성해보세요!')
     setBorderColor('#DADADA')
-  }
-  const handleCheck = (id: number) => {
-    const current = todoList.find(todo => todo.id === id)?.isChecked ?? 0
-    patchTodoCheck(id, current === 0 ? 1 : 0).then(() => setUpdated(!updated))
-  }
+  }, [newTodo])
 
-  const handleDelete = (id: number) => {
-    deleteTodo(id).then(() => setUpdated(!updated))
-  }
+  const fn = useCallback(
+    (id: number) => {
+      const current = todoList.find(todo => todo.id === id)?.isChecked ?? false
+      patchTodoCheck(id, !current).then(() => setUpdated(prev => !prev))
+    },
+    [todoList]
+  )
+  const ref = useRef(fn)
+  useLayoutEffect(() => void (ref.current = fn), [fn])
+
+  const handleCheck = useCallback((id: number) => ref.current(id), [])
+
+  const handleDelete = useCallback((id: number) => {
+    deleteTodo(id).then(() => setUpdated(prev => !prev))
+  }, [])
+
   useEffect(() => {
     getToDoList().then(res => {
-      setTodoList(res)
+      setTodoList([...res])
       setProgress(res.length > 0 ? Math.floor((res.filter(todo => todo.isChecked).length / res.length) * 100) : 0)
     })
   }, [updated])
   return (
-    <div className="flex flex-col justify-center items-center p-20">
-      <div className="flex flex-col justify-center items-center mb-20">
+    <div className="flex flex-col items-center justify-center p-20">
+      <div className="flex flex-col items-center justify-center mb-20">
         <h1 className="text-5xl font-bold">🎊 DevKor React Basic !! 🎊</h1>
       </div>
       <div className="flex flex-col justify-center items-center gap-[20px]">
